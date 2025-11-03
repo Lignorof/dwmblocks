@@ -34,7 +34,7 @@ void setupsignals();
 void sighandler(int signum);
 int getstatus(char *str, char *last);
 void statusloop();
-void termhandler();
+void termhandler(int signum);
 void pstdout();
 #ifndef NO_X
 void setroot();
@@ -184,7 +184,7 @@ void sighandler(int signum)
 	writestatus();
 }
 
-void termhandler()
+void termhandler(int signum)
 {
 	statusContinue = 0;
 }
@@ -203,7 +203,7 @@ int main(int argc, char** argv)
 #endif
 	delimLen = MIN(delimLen, strlen(delim));
 	delim[delimLen++] = '\0';
-	signal(SIGTERM, termhandler);
+	signal(SIGTERM, termhandler); //maybe change from termhandler to sighandler_t
 	signal(SIGINT, termhandler);
 	statusloop();
 #ifndef NO_X
